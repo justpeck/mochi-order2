@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สั่งโมจิออนไลน์ - มันโค้แป้ง</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: linear-gradient(135deg, #FFE5E5 0%, #FFF5E5 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #FF6B9D;
+        }
+        
+        .header h1 {
+            color: #FF6B9D;
+            font-size: 2.2em;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #FFF9F9;
+            border-radius: 15px;
+        }
+        
+        .section-title {
+            color: #FF6B9D;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        .input-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 1.05em;
+        }
+        
+        .input-group input[type="text"],
+        .input-group input[type="tel"],
+        .input-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #FFD0E0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Sarabun', sans-serif;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #FF6B9D;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #FFE5E5;
+            transition: all 0.3s;
+        }
+        
+        .menu-item:hover {
+            border-color: #FF6B9D;
+            transform: translateX(3px);
+            box-shadow: 0 2px 10px rgba(255,107,157,0.1);
+        }
+        
+        .menu-item-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .menu-item input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #FF6B9D;
+        }
+        
+        .menu-item label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 1.05em;
+            color: #333;
+        }
+        
+        .price {
+            color: #FF6B9D;
+            font-weight: 700;
+            font-size: 1.1em;
+            margin: 0 15px;
+            min-width: 60px;
+            text-align: right;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .quantity-btn {
+            width: 35px;
+            height: 35px;
+            border: none;
+            background: #FF6B9D;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        
+        .quantity-btn:hover {
+            background: #FF4D7D;
+            transform: scale(1.1);
+        }
+        
+        .quantity-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .quantity-input {
+            width: 55px;
+            text-align: center;
+            border: 2px solid #FFD0E0;
+            border-radius: 8px;
+            padding: 8px 5px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .badge {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #333;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-left: 10px;
+            box-shadow: 0 2px 5px rgba(255,215,0,0.3);
+        }
+        
+        .total-price {
+            background: linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: 700;
+            margin: 25px 0;
+            box-shadow: 0 5px 20px rgba(255,107,157,0.3);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.3em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255,107,157,0.3);
+            font-family: 'Sarabun', sans-serif;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,107,157,0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+            border: 2px solid #FFE5E5;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .radio-item:hover {
+            border-color: #FF6B9D;
+        }
+        
+        .radio-item input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #FF6B9D;
+        }
+        
+        .radio-item label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 1.05em;
+        }
+        
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .loading.show {
+            display: flex;
+        }
+        
+        .loading-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        .spinner {
+            border: 4px solid #FFE5E5;
+            border-top: 4px solid #FF6B9D;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .alert.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            border: 2px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .success-modal.show {
+            display: flex;
+        }
+
+        .success-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            animation: scaleIn 0.3s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-icon {
+            font-size: 4em;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        .success-content h2 {
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+
+        .success-content p {
+            color: #666;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .queue-number {
+            font-size: 2em;
+            color: #FF6B9D;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        .close-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: #FF6B9D;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .section-title {
+                font-size: 1.2em;
+            }
+            
+            .menu-item {
+                flex-wrap: wrap;
+            }
+            
+            .quantity-control {
+                margin-top: 10px;
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍡 มันโค้แป้ง 🍡</h1>
+            <p>สั่งโมจิอร่อยๆ ง่ายๆ ได้ที่นี่!</p>
+        </div>
+
+        <div id="alertBox" class="alert"></div>
+        
+        <div class="loading" id="loadingBox">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p>กำลังส่งออเดอร์...</p>
+            </div>
+        </div>
+
+        <div class="success-modal" id="successModal">
+            <div class="success-content">
+                <div class="success-icon">✅</div>
+                <h2>สั่งซื้อสำเร็จ!</h2>
+                <p>หมายเลขคิวของคุณคือ</p>
+                <div class="queue-number" id="displayQueue">-</div>
+                <p>กรุณารอรับโมจิที่บูธค่ะ</p>
+                <button class="close-btn" onclick="closeSuccessModal()">ปิด</button>
+            </div>
+        </div>
+
+        <form id="orderForm">
+            <!-- ข้อมูลลูกค้า -->
+            <div class="section">
+                <div class="section-title">👤 ข้อมูลของคุณ</div>
+                <div class="input-group">
+                    <label>ชื่อ: <span style="color: red;">*</span></label>
+                    <input type="text" name="customerName" required placeholder="กรุณาใส่ชื่อ">
+                </div>
+                
+                <div class="input-group">
+                    <label>หมายเลขคิว/โต๊ะ: <span style="color: red;">*</span></label>
+                    <input type="text" name="queueNumber" required placeholder="เช่น A01, B05">
+                </div>
+                
+                <div class="input-group">
+                    <label>เบอร์โทรศัพท์:</label>
+                    <input type="tel" name="phone" placeholder="เช่น 0812345678">
+                </div>
+            </div>
+
+            <!-- เมนูโมจิ -->
+            <div class="section">
+                <div class="section-title">🍡 เลือกเมนูโมจิ</div>
+                
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <input type="checkbox" id="mochi1" value="โมจิธรรมดา" onchange="updateCheckbox('mochi1')">
+                        <label for="mochi1">โมจิธรรมดา</label>
+                    </div>
+                    <span class="price">15฿</span>
+                    <div class="quantity-control">
+                        <button type="button" class="quantity-btn" onclick="changeQty('mochi1', -1)">-</button>
+                        <input type="number" id="qty-mochi1" class="quantity-input" value="0" min="0" readonly>
+                        <button type="button" class="quantity-btn" onclick="changeQty('mochi1', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <input type="checkbox" id="mochi2" value="โมจิช็อกโกแลต" onchange="updateCheckbox('mochi2')">
+                        <label for="mochi2">โมจิช็อกโกแลต</label>
+                    </div>
+                    <span class="price">20฿</span>
+                    <div class="quantity-control">
+                        <button type="button" class="quantity-btn" onclick="changeQty('mochi2', -1)">-</button>
+                        <input type="number" id="qty-mochi2" class="quantity-input" value="0" min="0" readonly>
+                        <button type="button" class="quantity-btn" onclick="changeQty('mochi2', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <input type="checkbox" id="mochi3" value="โมจิชาเขียว" onchange="updateCheckbox('mochi3')">
+                        <label for="mochi3">โมจิชาเขียว</label>
+                    </div>
+                    <span class="price">20฿</span>
+                    <div class="quantity-control">
+                        <button type="button" class="quantity-btn" onclick="changeQty('mochi3', -1)">-</button>
+                        <input type="number" id="qty-mochi3" class="quantity-input" value="0" min="0" readonly>
+                        <button type="button" class="quantity-btn" onclick="changeQty('mochi3', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <input type="checkbox" id="mochi4" value="โมจิสตรอเบอร์รี่" onchange="updateCheckbox('mochi4')">
+                        <label for="mochi4">โมจิสตรอเบอร์รี่</label>
+                    </div>
+                    <span class="price">20฿</span>
+                    <div class="quantity-control">
+                        <button type="button" class="quantity-btn" onclick="changeQty('mochi4', -1)">-</button>
+                        <input type="number" id="qty-mochi4" class="quantity-input" value="0" min="0" readonly>
+                        <button type="button" class="quantity-btn" onclick="changeQty('mochi4', 1)">+</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <input type="checkbox" id="mochi5" value="โมจิมะม่วง" onchange="updateCheckbox('mochi5')">
+                        <label for="mochi5">โมจิมะม่วง</label>
+                    </div>
+                    <span class="price">20฿</span>
+                    <div class="quantity-control">
+                        <button type="button" class="quantity-btn" onclick="changeQty('mochi5', -1)">-</button>
+                        <input type="number" id="qty-mochi5" class="quantity-input" value="0" min="0" readonly>
+                        <button type="button" class="quantity-btn" onclick="changeQty('mochi5', 1)">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Basic Topping -->
+            <div class="section">
+                <div class="section-title">
+                    🧁 Basic Topping 
+                    <span class="badge">ฟรี! เลือก 2 อย่าง</span>
+                </div>
+                <div class="menu-item">
+                    <input type="checkbox" name="basicTopping" value="นมปั้น" id="basic1">
+                    <label for="basic1" style="margin-left: 12px;">นมปั้น</label>
+                </div>
+                <div class="menu-item">
+                    <input type="checkbox" name="basicTopping" value="ช็อกโกแลต" id="basic2">
+                    <label for="basic2" style="margin-left: 12px;">ช็อกโกแลต</label>
+                </div>
+                <div class="menu-item">
+                    <input type="checkbox" name="basicTopping" value="น้ำผึ้ง" id="basic3">
+                    <label for="basic3" style="margin-left: 12px;">น้ำผึ้ง</label>
+                </div>
+            </div>
+
+            <!-- Premium Topping -->
+            <div class="section">
+                <div class="section-title">✨ Topping พิเศษ</div>
+                
+                <div class="menu-item">
+                    <input type="checkbox" name="premiumTopping" value="หวาน" id="prem1">
+                    <label for="prem1" style="margin-left: 12px; flex: 1;">หวาน</label>
+                    <span class="price">+5฿</span>
+                </div>
+                
+                <div class="menu-item">
+                    <input type="checkbox" name="premiumTopping" value="โอรีโอ" id="prem2">
+                    <label for="prem2" style="margin-left: 12px; flex: 1;">โอรีโอ</label>
+                    <span class="price">+5฿</span>
+                </div>
+                
+                <div class="menu-item">
+                    <input type="checkbox" name="premiumTopping" value="ผงถั่วคั่วโกะ" id="prem3">
+                    <label for="prem3" style="margin-left: 12px; flex: 1;">ผงถั่วคั่วโกะ</label>
+                    <span class="price">+5฿</span>
+                </div>
+                
+                <div class="menu-item">
+                    <input type="checkbox" name="premiumTopping" value="เค้ม" id="prem4">
+                    <label for="prem4" style="margin-left: 12px; flex: 1;">เค้ม</label>
+                    <span class="price">+7฿</span>
+                </div>
+                
+                <div class="menu-item">
+                    <input type="checkbox" name="premiumTopping" value="โรยู + สาหร่าย" id="prem5">
+                    <label for="prem5" style="margin-left: 12px; flex: 1;">โรยู + สาหร่าย</label>
+                    <span class="price">+7฿</span>
+                </div>
+                
+                <div class="menu-item">
+                    <input type="checkbox" id="toraji" name="premiumTopping" value="ตราจิ้น">
+                    <label for="toraji" style="margin-left: 12px; flex: 1;">ตราจิ้น (จะได้ซอส + งา)</label>
+                    <span class="price">+7฿</span>
+                </div>
+            </div>
+
+            <!-- ซอส -->
+            <div class="section" id="sauceSection" style="display: none;">
+                <div class="section-title">🥢 เลือกซอส (สำหรับตราจิ้น)</div>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" name="sauce" value="ซอสไปเค้ม + งาดำ" id="sauce1">
+                        <label for="sauce1">ซอสไปเค้ม + งาดำ</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="sauce" value="ซอสหมูย่าง + งาขาว" id="sauce2">
+                        <label for="sauce2">ซอสหมูย่าง + งาขาว</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="sauce" value="ไม่เอา" id="sauce3" checked>
+                        <label for="sauce3">ไม่เอา</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- หมายเหตุ -->
+            <div class="section">
+                <div class="section-title">📝 หมายเหตุเพิ่มเติม</div>
+                <div class="input-group">
+                    <textarea name="note" rows="3" placeholder="ระบุความต้องการพิเศษ... (ถ้ามี)"></textarea>
+                </div>
+            </div>
+
+            <!-- ราคารวม -->
+            <div class="total-price">
+                💰 ราคารวม: <span id="totalPrice">0</span> บาท
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">🛒 ยืนยันการสั่งซื้อ</button>
+        </form>
+    </div>
+
+    <script>
+        // ⚠️ สำคัญ! แก้ไข URL นี้ให้เป็น Web App URL ของคุณ
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxH6rvxx6JV_ozQo55h_nqsdTet9Yz3tLb8blckdIQ8TUky99dBRg_5bIc6kiGox1KU/exec';  // ⬅️ แก้ตรงนี้
+
+        // ราคาเมนู
+        const prices = {
+            'mochi1': 15,
+            'mochi2': 20,
+            'mochi3': 20,
+            'mochi4': 20,
+            'mochi5': 20
+        };
+
+        // ชื่อเมนู
+        const menuNames = {
+            'mochi1': 'โมจิธรรมดา',
+            'mochi2': 'โมจิช็อกโกแลต',
+            'mochi3': 'โมจิชาเขียว',
+            'mochi4': 'โมจิสตรอเบอร์รี่',
+            'mochi5': 'โมจิมะม่วง'
+        };
+
+        // เปลี่ยนจำนวน
+        function changeQty(id, change) {
+            const input = document.getElementById('qty-' + id);
+            let value = parseInt(input.value) || 0;
+            value += change;
+            if (value < 0) value = 0;
+            input.value = value;
+            
+            document.getElementById(id).checked = value > 0;
+            calculateTotal();
+        }
+
+        // อัพเดท checkbox
+        function updateCheckbox(id) {
+            const checkbox = document.getElementById(id);
+            const qtyInput = document.getElementById('qty-' + id);
+            
+            if (checkbox.checked && qtyInput.value == 0) {
+                qtyInput.value = 1;
+            } else if (!checkbox.checked) {
+                qtyInput.value = 0;
+            }
+            
+            calculateTotal();
+        }
+
+        // คำนวณราคารวม
+        function calculateTotal() {
+            let total = 0;
+            
+            for (let key in prices) {
+                const qty = parseInt(document.getElementById('qty-' + key).value) || 0;
+                total += prices[key] * qty;
+            }
+            
+            document.querySelectorAll('input[name="premiumTopping"]:checked').forEach(cb => {
+                if (cb.value === 'หวาน' || cb.value === 'โอรีโอ' || cb.value === 'ผงถั่วคั่วโกะ') {
+                    total += 5;
+                } else {
+                    total += 7;
+                }
+            });
+            
+            document.getElementById('totalPrice').textContent = total;
+        }
+
+        // แสดง/ซ่อนส่วนเลือกซอส
+        document.getElementById('toraji').addEventListener('change', function() {
+            document.getElementById('sauceSection').style.display = 
+                this.checked ? 'block' : 'none';
+        });
+
+        // จำกัด Basic Topping
+        document.querySelectorAll('input[name="basicTopping"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const checked = document.querySelectorAll('input[name="basicTopping"]:checked');
+                if (checked.length > 2) {
+                    this.checked = false;
+                    showAlert('เลือก Basic Topping ได้สูงสุด 2 อย่างค่ะ', 'error');
+                }
+            });
+        });
+
+        // คำนวณราคาเมื่อเปลี่ยน topping
+        document.querySelectorAll('input[name="premiumTopping"]').forEach(cb => {
+            cb.addEventListener('change', calculateTotal);
+        });
+
+        // แสดงข้อความแจ้งเตือน
+        function showAlert(message, type) {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.className = `alert alert-${type} show`;
+            alertBox.textContent = message;
+            
+            setTimeout(() => {
+                alertBox.className = 'alert';
+            }, 5000);
+        }
+
+        // แสดง Success Modal
+        function showSuccessModal(queueNumber) {
+            document.getElementById('displayQueue').textContent = queueNumber;
+            document.getElementById('successModal').classList.add('show');
+        }
+
+        // ปิด Success Modal
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('show');
+            window.location.reload();
+        }
+
+        // ส่งฟอร์ม
+        document.getElementById('orderForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // ตรวจสอบว่าใส่ URL แล้ว
+            if (SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbxH6rvxx6JV_ozQo55h_nqsdTet9Yz3tLb8blckdIQ8TUky99dBRg_5bIc6kiGox1KU/exec') {
+                alert('❌ กรุณาแก้ไข SCRIPT_URL ในโค้ด JavaScript ก่อนใช้งาน\n\nให้ไปแก้ไขที่บรรทัด:\nconst SCRIPT_URL = \'ใส่ Web App URL...\'');
+                return;
+            }
+            
+            // ตรวจสอบเลือกโมจิ
+            let hasMochi = false;
+            for (let key in prices) {
+                if (parseInt(document.getElementById('qty-' + key).value) > 0) {
+                    hasMochi = true;
+                    break;
+                }
+            }
+            
+            if (!hasMochi) {
+                showAlert('กรุณาเลือกโมจิอย่างน้อย 1 ชิ้นค่ะ', 'error');
+                return;
+            }
+            
+            // รวบรวมข้อมูล
+            const formData = new FormData(this);
+            let orderData = {
+                customerName: formData.get('customerName'),
+                queueNumber: formData.get('queueNumber'),
+                phone: formData.get('phone') || '-',
+                mochi: [],
+                basicTopping: [],
+                premiumTopping: [],
+                sauce: formData.get('sauce') || '-',
+                note: formData.get('note') || '-',
+                totalPrice: document.getElementById('totalPrice').textContent
+            };
+            
+            // รวบรวมโมจิ
+            for (let key in prices) {
+                const qty = parseInt(document.getElementById('qty-' + key).value);
+                if (qty > 0) {
+                    orderData.mochi.push({
+                        name: menuNames[key],
+                        quantity: qty,
+                        price: prices[key]
+                    });
+                }
+            }
+            
+            // รวบรวม topping
+            formData.getAll('basicTopping').forEach(t => orderData.basicTopping.push(t));
+            formData.getAll('premiumTopping').forEach(t => orderData.premiumTopping.push(t));
+            
+            // แสดง Loading
+            document.getElementById('loadingBox').classList.add('show');
+            document.getElementById('submitBtn').disabled = true;
+            
+            // ส่งข้อมูล
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
+                    body: JSON.stringify(orderData)
+                });
+                
+                // ซ่อน Loading
+                document.getElementById('loadingBox').classList.remove('show');
+                
+                // แสดง Success Modal
+                showSuccessModal(orderData.queueNumber);
+                
+            } catch (error) {
+                document.getElementById('loadingBox').classList.remove('show');
+                document.getElementById('submitBtn').disabled = false;
+                showAlert('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง หรือติดต่อเจ้าหน้าที่', 'error');
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
